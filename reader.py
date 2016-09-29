@@ -6,7 +6,7 @@ def read_base(filename, typechar, typesize):
         while True:
             vec = []
             d_bin = f.read(4)
-            if d_bin=='':
+            if d_bin==b'':
                 break
             dim, = struct.unpack('i', d_bin)
             for d in range(dim):
