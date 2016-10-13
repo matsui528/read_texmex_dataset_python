@@ -22,14 +22,14 @@ def process(input_path, output_path, offset, count):
             writer.writerow(vec)
 
 if __name__ == '__main__':
+    num_samples = reader.get_fvec_size(args.filepath)
     if args.split is None:
-        args.split = reader.get_fvec_size(args.filepath)
-        print(args.split)
+        args.split = num_samples
     processes = []
-    for i in xrange(0, reader.get_fvec_size(args.filepath), args.split):
+    for i in xrange(0, num_samples, args.split):
         p = multiprocessing.Process(target=process, args=(
             args.filepath, 
-            "{}_{}".format(args.savepath, i),
+            ("{}_{:0"+str(len(str(num_samples)))+"d}").format(args.savepath, i),
             i,
             args.split
         ))
