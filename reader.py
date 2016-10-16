@@ -2,30 +2,49 @@ import struct
 import numpy
 import os
 
+
 def read_base(filename, typechar, typesize, skipsample=0):
-    with open(filename, 'rb') as f:
-        if skipsample > 0:
-            d_bin = f.read(4)
-            dim, = struct.unpack('i', d_bin)
-            f.seek(dim*typesize*skipsample + 4*skipsample, 0)
-        while True:
+    class ReadBaseIterator:
+        def __init__(self, filename, typechar, typesize, skipsample):
+            self.f = open(filename, 'rb')
+            self.typechar = typechar
+            self.typesize = typesize
+            if skipsample > 0:
+                d_bin = self.f.read(4)
+                dim, = struct.unpack('i', d_bin)
+                self.f.seek(dim*typesize*skipsample + 4*skipsample, 0)
+
+        def __iter__(self):
+            return self
+
+        def next(self):
+            return self.__next__()
+
+        def __next__(self):
             vec = []
-            d_bin = f.read(4)
+            d_bin = self.f.read(4)
             if d_bin==b'':
-                break
+                raise StopIteration()
             dim, = struct.unpack('i', d_bin)
-            # f.read(dim*typesize)
             for d in range(dim):
-               value, = struct.unpack(typechar, f.read(typesize))
+               value, = struct.unpack(self.typechar, self.f.read(self.typesize))
                vec.append(value)
-            yield vec
+            return vec
+
+        def next_without_unpack(self):
+            vec = []
+            d_bin = self.f.read(4)
+            if d_bin==b'':
+                raise StopIteration()
+            dim, = struct.unpack('i', d_bin)
+            return self.f.read(dim*self.typesize)
+    return ReadBaseIterator(filename, typechar, typesize, skipsample)
 
 def get_sample_size(filename, typechar, typesize):
     with open(filename, 'rb') as f:
         d_bin = f.read(4)
         dim, = struct.unpack('i', d_bin)
         return os.path.getsize(filename) / dim /typesize
-
 
 #float
 def read_fvec(filename):
