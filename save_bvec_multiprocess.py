@@ -1,10 +1,9 @@
-from builtins import range
 import argparse
-import struct
-import numpy
-import reader
 import csv
 import multiprocessing
+from builtins import range
+
+from texmex import reader
 
 parser = argparse.ArgumentParser()
 parser.add_argument("filepath")
