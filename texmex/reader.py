@@ -21,18 +21,14 @@ def read_base(filename, typechar, typesize, skipsample=0):
             return self.__next__()
 
         def __next__(self):
-            vec = []
             d_bin = self.f.read(4)
             if d_bin==b'':
                 raise StopIteration()
             dim, = struct.unpack('i', d_bin)
-            for d in range(dim):
-               value, = struct.unpack(self.typechar, self.f.read(self.typesize))
-               vec.append(value)
+            vec = struct.unpack(self.typechar*dim, self.f.read(self.typesize*dim))
             return vec
 
         def next_without_unpack(self):
-            vec = []
             d_bin = self.f.read(4)
             if d_bin==b'':
                 raise StopIteration()
