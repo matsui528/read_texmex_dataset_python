@@ -2,7 +2,7 @@ import argparse
 import csv
 import multiprocessing
 from builtins import range
-from texmex import reader
+from texmex_python import reader
 
 parser = argparse.ArgumentParser()
 parser.add_argument("filepath")
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     processes = []
     for i in range(0, num_samples, args.split):
         p = multiprocessing.Process(target=process, args=(
-            args.filepath, 
+            open(args.filepath),
             ("{}_{:0"+str(len(str(num_samples)))+"d}").format(args.savepath, i),
             i,
             args.split
