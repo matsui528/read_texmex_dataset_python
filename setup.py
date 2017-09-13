@@ -1,5 +1,12 @@
 from setuptools import setup
 
+
+def requirements():
+    with open('requirements.txt') as f:
+        list_requirements = f.read().splitlines()
+    return list_requirements
+
+
 setup(
     name='texmex_python',
     version='0.0.1',
@@ -7,6 +14,7 @@ setup(
     author_email='',
     description='',
     long_description='',
+    install_requires=requirements(),
     packages=['texmex_python'],
     zip_safe=False,
 )
