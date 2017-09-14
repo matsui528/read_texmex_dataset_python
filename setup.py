@@ -9,7 +9,7 @@ def requirements():
 
 setup(
     name='texmex_python',
-    version='0.0.1',
+    version='1.0.0',
     author='',
     author_email='',
     description='',
