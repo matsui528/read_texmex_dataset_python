@@ -10,9 +10,10 @@ def requirements():
 setup(
     name='texmex_python',
     version='1.0.0',
-    author='',
-    author_email='',
-    description='',
+    author='Hi-king',
+    author_email='hikingko1@gmail.com',
+    url='https://github.com/Hi-king/read_texmex_dataset_python',
+    description='read texmex dataset',
     long_description='',
     install_requires=requirements(),
     packages=['texmex_python'],
