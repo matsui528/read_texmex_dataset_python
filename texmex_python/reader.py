@@ -43,7 +43,7 @@ def get_sample_size(filename, typechar, typesize):
     with open(filename, 'rb') as f:
         d_bin = f.read(4)
         dim, = struct.unpack('i', d_bin)
-        return int(os.path.getsize(filename) / dim / typesize)
+        return int(os.path.getsize(filename) / (typesize * dim + 4))
 
 
 # float
